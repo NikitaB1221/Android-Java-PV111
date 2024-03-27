@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="main_calc_button">#00FA85</color>
+    <color name="main_calc_button_stroke">#006A40</color>
+    <!--CALC-->
+    <color name="calc_background">#202020</color>
+    <color name="calc_primary_color">#00FA85</color>
+    <color name="calc_secondary_color">#006A40</color>
+    <color name="calc_digit_color">#198E5F</color>
+    <color name="calc_operation_color">#125037</color>
+    <color name="calc_equal_color">#1EA032</color>
+
+</resources>
