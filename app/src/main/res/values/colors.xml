@@ -11,5 +11,13 @@
     <color name="calc_digit_color">#198E5F</color>
     <color name="calc_operation_color">#125037</color>
     <color name="calc_equal_color">#1EA032</color>
+    <!--TTT-->
+    <color name="ttt_X_score_color">#F44336</color>
+    <color name="ttt_O_score_color">#2196F3</color>
+    <color name="main_ttt_button">#59FF00</color>
+    <color name="main_ttt_button_stroke">#194700</color>
+    <color name="ttt_background">#202020</color>
+    <color name="ttt_primary_color">#00FA85</color>
+    <color name="ttt_secondary_color">#006A40</color>
 
 </resources>

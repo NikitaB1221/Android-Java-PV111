@@ -18,4 +18,27 @@
     <style name="calc_equal_btn" parent="calc_btn">
         <item name="android:background">@drawable/calc_equal_btn_shape</item>
     </style>
+
+    <!--TTT-->
+    <style name="ttt_btn" >
+        <item name="backgroundTint">@null</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/ttt_primary_color</item>
+    </style>
+    <style name="ttt_field_btn" parent="ttt_btn">
+        <item name="android:background">@drawable/ttt_oper_btn_shape</item>
+    </style>
+    <style name="ttt_field_btn_x" parent="ttt_field_btn">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/ttt_X_score_color</item>
+    </style>
+    <style name="ttt_field_btn_o" parent="ttt_field_btn">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/ttt_O_score_color</item>
+    </style>
+
 </resources>

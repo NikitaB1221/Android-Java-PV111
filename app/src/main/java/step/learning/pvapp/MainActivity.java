@@ -23,12 +23,19 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         findViewById(R.id.main_button_calc).setOnClickListener(this::onCalcButtonClick);
+        findViewById(R.id.main_button_ttt).setOnClickListener(this::onTttButtonClick);
     }
 
     private void onCalcButtonClick(View view){
         Intent intent = new Intent(
                 this.getApplicationContext(),
                 CalcActivity.class);
+        startActivity(intent);
+    }
+    private void onTttButtonClick(View view){
+        Intent intent = new Intent(
+                this.getApplicationContext(),
+                TttActivity.class);
         startActivity(intent);
     }
 }

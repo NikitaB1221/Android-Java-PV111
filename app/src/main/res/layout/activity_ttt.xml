@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CalcActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/ttt_background"
+        android:letterSpacing="0.05"
+        android:text="@string/ttt_page_title"
+        android:textAlignment="center"
+        android:textColor="@color/ttt_primary_color"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.078" />
+
+    <LinearLayout
+        android:id="@+id/ttt_X_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toStartOf="@+id/ttt_O_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <TextView
+            android:id="@+id/ttt_X_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ttt_X_score_color"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            tools:text="X: " />
+
+        <TextView
+            android:id="@+id/ttt_X_score_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:textColor="@color/ttt_X_score_color"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            tools:text="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ttt_O_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ttt_X_container"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/ttt_O_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ttt_O_score_color"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            tools:text="O: " />
+
+        <TextView
+            android:id="@+id/ttt_O_score_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:textAlignment="center"
+            android:textColor="@color/ttt_O_score_color"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            tools:text="1" />
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="400sp"
+        android:layout_height="400sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7"
+        tools:visibility="visible">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/ttt_field1"
+                style="@style/ttt_field_btn" />
+            <Button
+                android:id="@+id/ttt_field2"
+                style="@style/ttt_field_btn" />
+            <Button
+                android:id="@+id/ttt_field3"
+                style="@style/ttt_field_btn_o"
+                android:text="O"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/ttt_field4"
+                style="@style/ttt_field_btn_x"
+                android:text="X"/>
+            <Button
+                android:id="@+id/ttt_field5"
+                style="@style/ttt_field_btn" />
+            <Button
+                android:id="@+id/ttt_field6"
+                style="@style/ttt_field_btn" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/ttt_field7"
+                style="@style/ttt_field_btn" />
+            <Button
+                android:id="@+id/ttt_field8"
+                style="@style/ttt_field_btn" />
+            <Button
+                android:id="@+id/ttt_field9"
+                style="@style/ttt_field_btn" />
+
+        </TableRow>
+
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

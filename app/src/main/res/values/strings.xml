@@ -3,6 +3,7 @@
     <!--MAIN ACTIVITY-->
     <string name="main_page_title">Getting to know Android</string>
     <string name="main_calc_button">Calculator</string>
+    <string name="main_ttt_button">TicTacToe</string>
     <!--CALC ACTIVITY-->
     <string name="calc_page_title">Calculator</string>
     <string name="calc_btn_percent">%</string>
@@ -29,5 +30,7 @@
     <string name="calc_btn_7">7</string>
     <string name="calc_btn_8">8</string>
     <string name="calc_btn_9">9</string>
+    <!--TTT-->
+    <string name="ttt_page_title">TicTacToe</string>
 
 </resources>
