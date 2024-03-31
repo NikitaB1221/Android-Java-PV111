@@ -30,7 +30,7 @@
         <item name="android:textColor">@color/ttt_primary_color</item>
     </style>
     <style name="ttt_field_btn" parent="ttt_btn">
-        <item name="android:background">@drawable/ttt_oper_btn_shape</item>
+        <item name="android:background">@drawable/ttt_btn_shape</item>
     </style>
     <style name="ttt_field_btn_x" parent="ttt_field_btn">
         <item name="android:textSize">36sp</item>
