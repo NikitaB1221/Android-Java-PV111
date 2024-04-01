@@ -41,7 +41,7 @@ public class TttActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.ttt_O_label)).setText("O: ");
         ((TextView) findViewById(R.id.ttt_O_score_label)).setText(String.valueOf(ScoreO));
         ((TextView) findViewById(R.id.ttt_X_score_label)).setText(String.valueOf(ScoreX));
-        Toast.makeText(this, IsXTurn? "It's X turn" : "It's O turn", Toast.LENGTH_SHORT).show();
+        if (savedInstanceState == null) Toast.makeText(this, IsXTurn? "It's X turn" : "It's O turn", Toast.LENGTH_SHORT).show();
     }
 
     private void fieldClick(View view) {
@@ -104,6 +104,7 @@ public class TttActivity extends AppCompatActivity {
                 field.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ttt_O_score_color));
             }
         }
+        Toast.makeText(this, IsXTurn? "It's X turn" : "It's O turn", Toast.LENGTH_SHORT).show();
     }
 
     private void clearAllFields(){

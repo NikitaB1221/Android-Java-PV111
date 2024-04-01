@@ -45,4 +45,18 @@
         app:layout_constraintTop_toBottomOf="@+id/main_button_calc"
         app:layout_constraintVertical_bias="0.086" />
 
+    <Button
+        android:id="@+id/main_button_the_snake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/main_btn_shape"
+        android:text="@string/main_the_snake_button"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_button_ttt"
+        app:layout_constraintVertical_bias="0.086" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

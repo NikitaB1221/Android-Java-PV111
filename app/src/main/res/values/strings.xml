@@ -4,6 +4,7 @@
     <string name="main_page_title">Getting to know Android</string>
     <string name="main_calc_button">Calculator</string>
     <string name="main_ttt_button">TicTacToe</string>
+    <string name="main_the_snake_button">TheSnake</string>
     <!--CALC ACTIVITY-->
     <string name="calc_page_title">Calculator</string>
     <string name="calc_btn_percent">%</string>

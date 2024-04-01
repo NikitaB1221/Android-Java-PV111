@@ -13,6 +13,9 @@
         android:theme="@style/Theme.PVapp"
         tools:targetApi="31">
         <activity
+            android:name=".TheSnakeActivity"
+            android:exported="false" />
+        <activity
             android:name=".TttActivity"
             android:exported="false" />
         <activity
