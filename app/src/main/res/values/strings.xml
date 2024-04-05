@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">PVapp</string>
-    <!--MAIN ACTIVITY-->
+    <!--region MAIN ACTIVITY-->
     <string name="main_page_title">Getting to know Android</string>
     <string name="main_calc_button">Calculator</string>
     <string name="main_ttt_button">TicTacToe</string>
     <string name="main_the_snake_button">TheSnake</string>
-    <!--CALC ACTIVITY-->
+    <!--endregion-->
+    <!--region CALC ACTIVITY-->
     <string name="calc_page_title">Calculator</string>
     <string name="calc_btn_percent">%</string>
     <string name="calc_btn_ce">CE</string>
@@ -31,7 +32,20 @@
     <string name="calc_btn_7">7</string>
     <string name="calc_btn_8">8</string>
     <string name="calc_btn_9">9</string>
-    <!--TTT-->
+    <!--endregion-->
+    <!--region TTT-->
     <string name="ttt_page_title">TicTacToe</string>
+    <!--endregion-->
+    <!--THE-SNAKE-->
+    <string name="the_snake_title">Game Over</string>
+    <string name="the_snake_message">Do you want to play again?</string>
+    <string name="the_snake_pb">Restart</string>
+    <string name="the_snake_nb">Exit</string>
+    <string name="the_snake_time">TIME:</string>
+    <string name="the_snake_best_time">BEST:</string>
+    <string name="the_snake_score">SCORE:</string>
+    <string name="the_snake_best_score">BEST:</string>
+    <string name="the_snake_template">%d c</string>
+
 
 </resources>

@@ -7,16 +7,91 @@
     android:layout_height="match_parent"
     tools:context=".TheSnakeActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.1"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="SCORE: 100500" />
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/the_snake_labels"
+                tools:text="@string/the_snake_time" />
+
+            <TextView
+                android:id="@+id/the_snake_tv_time"
+                style="@style/the_snake_labels"
+                tools:text="100500" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/the_snake_labels"
+                tools:text="@string/the_snake_best_time" />
+
+            <TextView
+                android:id="@+id/the_snake_tv_best_time"
+                style="@style/the_snake_labels"
+                tools:text="100500" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/main_the_snake_button"
+            android:src="@drawable/snake" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/the_snake_labels"
+                tools:text="@string/the_snake_score" />
+
+            <TextView
+                android:id="@+id/the_snake_tv_score"
+                style="@style/the_snake_labels"
+                tools:text="100500" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/the_snake_labels"
+                tools:text="the_snake_best_score" />
+
+            <TextView
+                android:id="@+id/the_snake_tv_best_score"
+                style="@style/the_snake_labels"
+                tools:text="100500" />
+        </LinearLayout>
+    </LinearLayout>
 
     <TableLayout
         android:id="@+id/game_field"
@@ -27,6 +102,5 @@
         app:layout_constraintHeight_percent="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-    </TableLayout>
+        app:layout_constraintVertical_bias="1.0"></TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

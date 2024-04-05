@@ -20,4 +20,11 @@
     <color name="ttt_primary_color">#00FA85</color>
     <color name="ttt_secondary_color">#006A40</color>
 
+    <!--THE-SNAKE-->
+    <color name="the_snake_snake">#59FF00</color>
+    <color name="the_snake_background">#194700</color>
+    <color name="the_snake_cell">#006A40</color>
+    <color name="the_snake_food">#F44336</color>
+
+
 </resources>
