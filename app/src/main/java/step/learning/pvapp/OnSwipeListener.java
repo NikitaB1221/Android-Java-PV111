@@ -28,8 +28,8 @@ public class OnSwipeListener implements View.OnTouchListener {
     public void onSwipeTop() {}
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int MIN_DISTANCE = 30;
-        private static final int MIN_VELOCITY = 30;
+        private static final int MIN_DISTANCE = 50;
+        private static final int MIN_VELOCITY = 50;
 
         @Override
         public boolean onFling(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
