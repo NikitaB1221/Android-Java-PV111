@@ -180,7 +180,7 @@ public class TheSnakeActivity extends AppCompatActivity {
     }
     private void updateLabels(boolean forceUpdate) {
         tvScore.setText( String.valueOf( (int)score ) );
-        tvTime.setText( getString( R.string.the_snake_template, (int)time ) ) ;
+        tvTime.setText( getString( R.string.the_snake_time_template, (int)time ) ) ;
         if( time > bestTime ) {
             bestTime = time ;
             forceUpdate = true;
@@ -190,7 +190,7 @@ public class TheSnakeActivity extends AppCompatActivity {
             forceUpdate = true;
         }
         if( forceUpdate ) {
-            tvBestTime.setText( getString( R.string.the_snake_template, (int)bestTime ) ) ;
+            tvBestTime.setText( getString( R.string.the_snake_time_template, (int)bestTime ) ) ;
             tvBestScore.setText( String.valueOf( (int)bestScore ) );
         }
     }

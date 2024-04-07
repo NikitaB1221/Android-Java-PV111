@@ -152,4 +152,30 @@
         </TableRow>
 
     </TableLayout>
+
+    <TextView
+        android:id="@+id/xTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 c"
+        android:textColor="@color/ttt_X_score_color"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ttt_X_container"
+        app:layout_constraintStart_toStartOf="@+id/ttt_X_container"
+        app:layout_constraintTop_toBottomOf="@+id/ttt_X_container"
+        app:layout_constraintVertical_bias="0.290" />
+
+    <TextView
+        android:id="@+id/oTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 c"
+        android:textColor="@color/ttt_O_score_color"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ttt_O_container"
+        app:layout_constraintStart_toStartOf="@+id/ttt_O_container"
+        app:layout_constraintTop_toBottomOf="@+id/ttt_O_container"
+        app:layout_constraintVertical_bias="0.290" />
 </androidx.constraintlayout.widget.ConstraintLayout>

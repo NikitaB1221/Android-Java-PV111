@@ -35,6 +35,7 @@
     <!--endregion-->
     <!--region TTT-->
     <string name="ttt_page_title">TicTacToe</string>
+    <string name="ttt_time_template">%d c</string>
     <!--endregion-->
     <!--THE-SNAKE-->
     <string name="the_snake_title">Game Over</string>
@@ -45,7 +46,7 @@
     <string name="the_snake_best_time">BEST:</string>
     <string name="the_snake_score">SCORE:</string>
     <string name="the_snake_best_score">BEST:</string>
-    <string name="the_snake_template">%d c</string>
+    <string name="the_snake_time_template">%d c</string>
 
 
 </resources>

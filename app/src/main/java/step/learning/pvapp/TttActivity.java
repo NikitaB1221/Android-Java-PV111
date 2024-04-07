@@ -2,6 +2,7 @@ package step.learning.pvapp;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.TypedValue;
@@ -27,6 +28,10 @@ public class TttActivity extends AppCompatActivity {
     private int ScoreX = 0;
     private int ScoreO = 0;
     private LinkedList<turnListInfo> turnList;
+    private Handler handler;
+    private long period = 1000;
+    private int xTime, oTime;
+    private TextView tvXTime, tvOTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,12 @@ public class TttActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        xTime = 0;
+        oTime = 0;
+        tvXTime = findViewById(R.id.xTime);
+        tvOTime = findViewById(R.id.oTime);
+        handler = new Handler();
+        handler.postDelayed(this::update, period);
         findViewById(R.id.ttt_main_layout).setOnTouchListener(new OnSwipeListener(getApplicationContext()) {
             @Override
             public void onSwipeBottom() {
@@ -74,6 +85,17 @@ public class TttActivity extends AppCompatActivity {
             Toast.makeText(this, IsXTurn ? "It's X turn" : "It's O turn", Toast.LENGTH_SHORT).show();
     }
 
+    private void update() {
+        if (IsXTurn) {
+            xTime += (int) period / 1000;
+            tvXTime.setText(getString(R.string.ttt_time_template, xTime));
+        } else {
+            oTime += (int) period / 1000;
+            tvOTime.setText(getString(R.string.ttt_time_template, oTime));
+        }
+        handler.postDelayed(this::update, period);
+    }
+
     private void cancelLastMove() {
         if (!turnList.isEmpty()) {
             turnListInfo lastTurn = turnList.getFirst();
@@ -84,8 +106,7 @@ public class TttActivity extends AppCompatActivity {
             field.setText("");
             field.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ttt_secondary_color));
             turnList.removeFirst();
-        }
-        else
+        } else
             Toast.makeText(this, "There's nothing to cancel here", Toast.LENGTH_SHORT).show();
 
     }
@@ -131,6 +152,8 @@ public class TttActivity extends AppCompatActivity {
         }
         lLAL = new ArrayList<turnListInfo>(turnList);
         outState.putParcelableArrayList("turnList", lLAL);
+        outState.putInt("xTime", xTime);
+        outState.putInt("oTime", oTime);
     }
 
     @Override
@@ -153,6 +176,10 @@ public class TttActivity extends AppCompatActivity {
                 field.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ttt_O_score_color));
             }
         }
+        xTime = savedInstanceState.getInt("xTime");
+        oTime = savedInstanceState.getInt("oTime");
+        tvXTime.setText(getString(R.string.ttt_time_template, xTime));
+        tvOTime.setText(getString(R.string.ttt_time_template, oTime));
         turnList = new LinkedList<turnListInfo>(Objects.requireNonNull(savedInstanceState.getParcelableArrayList("turnList")));
         Toast.makeText(this, IsXTurn ? "It's X turn" : "It's O turn", Toast.LENGTH_SHORT).show();
     }
