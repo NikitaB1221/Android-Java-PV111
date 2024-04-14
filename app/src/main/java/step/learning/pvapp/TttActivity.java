@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -13,12 +14,17 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -32,9 +38,11 @@ public class TttActivity extends AppCompatActivity {
     private long period = 1000;
     private int xTime, oTime;
     private TextView tvXTime, tvOTime;
+    private boolean isEnd = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        clearAllFields();
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_ttt);
@@ -85,6 +93,29 @@ public class TttActivity extends AppCompatActivity {
             Toast.makeText(this, IsXTurn ? "It's X turn" : "It's O turn", Toast.LENGTH_SHORT).show();
     }
 
+    private void randomFirstTurn() {
+        String API_URL = "https://www.random.org/integers/?num=1&min=0&max=1&col=1&base=10&format=plain&rnd=new";
+        try {
+            HttpURLConnection conn = (HttpURLConnection) new URL(API_URL).openConnection();
+            conn.setRequestMethod("GET");
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            StringBuilder result = new StringBuilder();
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+            rd.close();
+            int randomNumber = Integer.parseInt(result.toString().trim());
+            if (randomNumber == 0) {
+                IsXTurn = false;
+            } else {
+                IsXTurn = true;
+            }
+        } catch (Exception ex) {
+            Log.e("randomFirstTurn", "randomFirstTurn: " + ex.getMessage());
+        }
+    }
+
     private void update() {
         if (IsXTurn) {
             xTime += (int) period / 1000;
@@ -93,7 +124,28 @@ public class TttActivity extends AppCompatActivity {
             oTime += (int) period / 1000;
             tvOTime.setText(getString(R.string.ttt_time_template, oTime));
         }
-        handler.postDelayed(this::update, period);
+        int winState = winCheck();
+        if (winState == 1 || winState == 2) {
+            isEnd = true;
+            if (winState == 1) {
+                ScoreX += 1;
+                ((TextView) findViewById(R.id.ttt_X_score_label)).setText(String.valueOf(ScoreX));
+            } else {
+                ScoreO += 1;
+                ((TextView) findViewById(R.id.ttt_O_score_label)).setText(String.valueOf(ScoreO));
+            }
+            new AlertDialog.Builder(
+                    TttActivity.this,
+                    androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
+                    .setTitle(winState == 1 ? "X" : "O" + R.string.ttt_ad_title)
+                    .setMessage(R.string.ttt_ad_message)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.ttt_pb, (dialog, buttonIndex) -> clearAllFields())
+                    .setNegativeButton(R.string.ttt_nb, (dialog, buttonIndex) -> finish())
+                    .show();
+        }
+        if (!isEnd) handler.postDelayed(this::update, period);
     }
 
     private void cancelLastMove() {
@@ -106,8 +158,7 @@ public class TttActivity extends AppCompatActivity {
             field.setText("");
             field.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ttt_secondary_color));
             turnList.removeFirst();
-        } else
-            Toast.makeText(this, "There's nothing to cancel here", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "There's nothing to cancel here", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -185,6 +236,7 @@ public class TttActivity extends AppCompatActivity {
     }
 
     private void clearAllFields() {
+        randomFirstTurn();
         for (int i = 1; i < 10; i++) {
             String btnId = "ttt_field" + i;
             Button field = findViewById(getResources().getIdentifier(btnId, "id", getPackageName()));
@@ -192,7 +244,87 @@ public class TttActivity extends AppCompatActivity {
             field.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36);
             field.setTypeface(field.getTypeface(), Typeface.BOLD);
             field.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ttt_secondary_color));
+            turnList = new LinkedList<>();
         }
+    }
+
+    private int winCheck() {
+        /*Lines*/
+        if (((Button) findViewById(R.id.ttt_field1)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field2)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field3)).getText().equals("X")) {
+            return 1;
+        } else if (((Button) findViewById(R.id.ttt_field1)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field2)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field3)).getText().equals("O")) {
+            return 2;
+        }
+        if (((Button) findViewById(R.id.ttt_field4)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field5)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field6)).getText().equals("X")) {
+            return 1;
+        } else if (((Button) findViewById(R.id.ttt_field4)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field5)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field6)).getText().equals("O")) {
+            return 2;
+        }
+        if (((Button) findViewById(R.id.ttt_field7)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field8)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field9)).getText().equals("X")) {
+            return 1;
+        } else if (((Button) findViewById(R.id.ttt_field7)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field8)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field9)).getText().equals("O")) {
+            return 2;
+        }
+        /*Columns*/
+        if (((Button) findViewById(R.id.ttt_field1)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field4)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field7)).getText().equals("X")) {
+            return 1;
+        } else if (((Button) findViewById(R.id.ttt_field1)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field4)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field7)).getText().equals("O")) {
+            return 2;
+        }
+        if (((Button) findViewById(R.id.ttt_field2)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field5)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field8)).getText().equals("X")) {
+            return 1;
+        } else if (((Button) findViewById(R.id.ttt_field2)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field5)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field8)).getText().equals("O")) {
+            return 2;
+        }
+        if (((Button) findViewById(R.id.ttt_field3)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field6)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field9)).getText().equals("X")) {
+            return 1;
+        } else if (((Button) findViewById(R.id.ttt_field3)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field6)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field9)).getText().equals("O")) {
+            return 2;
+        }
+        /*Diagonals*/
+        if (((Button) findViewById(R.id.ttt_field1)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field5)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field9)).getText().equals("X")) {
+            return 1;
+        } else if (((Button) findViewById(R.id.ttt_field1)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field5)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field9)).getText().equals("O")) {
+            return 2;
+        }
+        if (((Button) findViewById(R.id.ttt_field3)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field5)).getText().equals("X")
+                && ((Button) findViewById(R.id.ttt_field7)).getText().equals("X")) {
+            return 1;
+        } else if (((Button) findViewById(R.id.ttt_field3)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field5)).getText().equals("O")
+                && ((Button) findViewById(R.id.ttt_field7)).getText().equals("O")) {
+            return 2;
+        }
+        return 0;
     }
 
     private class turnListInfo implements Parcelable {

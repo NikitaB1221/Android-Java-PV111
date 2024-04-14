@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatActivity"
+    android:background="#DCD9D9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ECECEC"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/chat_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_revert" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"
+            android:text="@string/chat_name_label"
+            android:textColor="@color/ttt_secondary_color"/>
+
+        <EditText
+            android:id="@+id/chat_et_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="HNK"
+            android:textColor="@color/ttt_secondary_color"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@android:drawable/ic_popup_reminder"
+            android:layout_marginStart="25dp"
+            app:tint="@color/calc_primary_color"
+            android:tintMode="src_in" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:padding="12dp">
+        <LinearLayout
+            android:id="@+id/chat_messages_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="600dp"
+            android:orientation="vertical"
+            android:background="#ECECEC">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ECECEC"
+        android:padding="10dp"
+        android:textColor="@color/ttt_secondary_color">
+
+        <EditText
+            android:id="@+id/chat_et_message"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Hello world!"
+            android:textColor="@color/ttt_secondary_color"/>
+
+        <ImageButton
+            android:id="@+id/chat_btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:src="@android:drawable/ic_menu_send"
+            android:textColor="@color/ttt_secondary_color"/>
+    </LinearLayout>
+
+</LinearLayout>

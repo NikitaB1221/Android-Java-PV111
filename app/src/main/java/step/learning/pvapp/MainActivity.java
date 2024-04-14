@@ -25,24 +25,32 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.main_button_calc).setOnClickListener(this::onCalcButtonClick);
         findViewById(R.id.main_button_ttt).setOnClickListener(this::onTttButtonClick);
         findViewById(R.id.main_button_the_snake).setOnClickListener(this::onTheSnakeButtonClick);
+        findViewById(R.id.main_button_rates).setOnClickListener(this::onRatesButtonClick);
+        findViewById(R.id.main_button_chat).setOnClickListener(this::onChatButtonClick);
     }
 
-    private void onCalcButtonClick(View view){
-        Intent intent = new Intent(
-                this.getApplicationContext(),
-                CalcActivity.class);
+    private void onCalcButtonClick(View view) {
+        Intent intent = new Intent(this.getApplicationContext(), CalcActivity.class);
         startActivity(intent);
     }
-    private void onTttButtonClick(View view){
-        Intent intent = new Intent(
-                this.getApplicationContext(),
-                TttActivity.class);
+
+    private void onTttButtonClick(View view) {
+        Intent intent = new Intent(this.getApplicationContext(), TttActivity.class);
         startActivity(intent);
     }
-    private void onTheSnakeButtonClick(View view){
-        Intent intent = new Intent(
-                this.getApplicationContext(),
-                TheSnakeActivity.class);
+
+    private void onTheSnakeButtonClick(View view) {
+        Intent intent = new Intent(this.getApplicationContext(), TheSnakeActivity.class);
+        startActivity(intent);
+    }
+
+    private void onRatesButtonClick(View view) {
+        Intent intent = new Intent(this.getApplicationContext(), RatesActivity.class);
+        startActivity(intent);
+    }
+
+    private void onChatButtonClick(View view) {
+        Intent intent = new Intent(this.getApplicationContext(), ChatActivity.class);
         startActivity(intent);
     }
 }

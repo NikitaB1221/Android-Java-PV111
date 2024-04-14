@@ -9,54 +9,90 @@
 
     <TextView
         android:id="@+id/main_tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/main_page_title"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.081" />
 
     <Button
         android:id="@+id/main_button_calc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="140dp"
         android:background="@drawable/main_btn_shape"
         android:text="@string/main_calc_button"
         app:backgroundTint="@color/main_calc_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_tv_title"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.113" />
 
     <Button
         android:id="@+id/main_button_ttt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="140dp"
         android:background="@drawable/main_btn_shape"
         android:text="@string/main_ttt_button"
         app:backgroundTint="@color/main_ttt_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_button_calc"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.022" />
 
     <Button
         android:id="@+id/main_button_the_snake"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="140dp"
         android:background="@drawable/main_btn_shape"
         android:text="@string/main_the_snake_button"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.546"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_button_ttt"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.03" />
+
+    <Button
+        android:id="@+id/main_button_rates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="140dp"
+        android:background="@drawable/main_btn_shape"
+        android:text="@string/main_rates_button"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.582"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_button_the_snake"
+        app:layout_constraintVertical_bias="0.03" />
+
+    <Button
+        android:id="@+id/main_button_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="140dp"
+        android:background="@drawable/main_btn_shape"
+        android:text="@string/main_chat_button"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_button_rates"
+        app:layout_constraintVertical_bias="0.039" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
