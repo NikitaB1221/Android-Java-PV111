@@ -7,6 +7,7 @@
     <string name="main_the_snake_button">TheSnake</string>
     <string name="main_rates_button">Rates</string>
     <string name="main_chat_button">Chat</string>
+    <string name="main_anim_button">Animation</string>
     <!--endregion-->
     <!--region CALC ACTIVITY-->
     <string name="calc_page_title">Calculator</string>
@@ -56,6 +57,9 @@
     <string name="the_snake_time_template">%d c</string>
     <!--CHAT-->
     <string name="chat_name_label">Name:</string>
+    <string name="chat_message_line1">%s %s</string>
+    <string name="chat_no_author_alert">Fill Author field</string>
+    <string name="chat_no_message_alert">Fill Message field</string>
 
 
 </resources>

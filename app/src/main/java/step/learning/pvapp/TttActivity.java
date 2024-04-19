@@ -1,5 +1,6 @@
 package step.learning.pvapp;
 
+import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +36,7 @@ public class TttActivity extends AppCompatActivity {
     private int ScoreO = 0;
     private LinkedList<turnListInfo> turnList;
     private Handler handler;
-    private long period = 1000;
+    private final long period = 1000;
     private int xTime, oTime;
     private TextView tvXTime, tvOTime;
     private boolean isEnd = false;
@@ -61,6 +62,7 @@ public class TttActivity extends AppCompatActivity {
             @Override
             public void onSwipeBottom() {
 
+                super.onSwipeBottom();
             }
 
             @Override
@@ -71,17 +73,19 @@ public class TttActivity extends AppCompatActivity {
             @Override
             public void onSwipeRight() {
 
+                super.onSwipeRight();
             }
 
             @Override
             public void onSwipeTop() {
 
+                super.onSwipeTop();
             }
         });
         turnList = new LinkedList<>();
         for (int i = 1; i < 10; i++) {
             String btnId = "ttt_field" + i;
-            Button field = findViewById(getResources().getIdentifier(btnId, "id", getPackageName()));
+            @SuppressLint("DiscouragedApi") Button field = findViewById(getResources().getIdentifier(btnId, "id", getPackageName()));
             field.setOnClickListener(this::fieldClick);
         }
         clearAllFields();
@@ -106,11 +110,7 @@ public class TttActivity extends AppCompatActivity {
             }
             rd.close();
             int randomNumber = Integer.parseInt(result.toString().trim());
-            if (randomNumber == 0) {
-                IsXTurn = false;
-            } else {
-                IsXTurn = true;
-            }
+            IsXTurn = randomNumber != 0;
         } catch (Exception ex) {
             Log.e("randomFirstTurn", "randomFirstTurn: " + ex.getMessage());
         }
@@ -152,9 +152,8 @@ public class TttActivity extends AppCompatActivity {
         if (!turnList.isEmpty()) {
             turnListInfo lastTurn = turnList.getFirst();
             Toast.makeText(this, "Last move canceled! Now it's " + turnList.getFirst().value + " turn", Toast.LENGTH_SHORT).show();
-            Button field = (Button) findViewById(lastTurn.fieldId);
-            if (field.getText().equals("X")) IsXTurn = true;
-            else IsXTurn = false;
+            Button field = findViewById(lastTurn.fieldId);
+            IsXTurn = field.getText().equals("X");
             field.setText("");
             field.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ttt_secondary_color));
             turnList.removeFirst();
@@ -201,7 +200,7 @@ public class TttActivity extends AppCompatActivity {
             Button field = findViewById(getResources().getIdentifier(btnId, "id", getPackageName()));
             outState.putCharSequence(btnId + "val", field.getText());
         }
-        lLAL = new ArrayList<turnListInfo>(turnList);
+        lLAL = new ArrayList<>(turnList);
         outState.putParcelableArrayList("turnList", lLAL);
         outState.putInt("xTime", xTime);
         outState.putInt("oTime", oTime);
@@ -231,7 +230,7 @@ public class TttActivity extends AppCompatActivity {
         oTime = savedInstanceState.getInt("oTime");
         tvXTime.setText(getString(R.string.ttt_time_template, xTime));
         tvOTime.setText(getString(R.string.ttt_time_template, oTime));
-        turnList = new LinkedList<turnListInfo>(Objects.requireNonNull(savedInstanceState.getParcelableArrayList("turnList")));
+        turnList = new LinkedList<>(Objects.requireNonNull(savedInstanceState.getParcelableArrayList("turnList")));
         Toast.makeText(this, IsXTurn ? "It's X turn" : "It's O turn", Toast.LENGTH_SHORT).show();
     }
 
@@ -327,7 +326,7 @@ public class TttActivity extends AppCompatActivity {
         return 0;
     }
 
-    private class turnListInfo implements Parcelable {
+    private static class turnListInfo implements Parcelable {
         private int fieldId;
         private String value;
 

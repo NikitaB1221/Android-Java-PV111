@@ -1,8 +1,6 @@
 package step.learning.pvapp;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.icu.text.RelativeDateTimeFormatter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -25,17 +22,16 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class TheSnakeActivity extends AppCompatActivity {
 
     private static final Random RANDOM = new Random();
-    private int fieldWidth = 15;
-    private int fieldHeight = 28;
-    private long period = 500;
+    private final int fieldWidth = 15;
+    private final int fieldHeight = 28;
+    private final long period = 500;
     private TextView[][] cells;
     private Handler handler;
     private final LinkedList<Vector2> SNAKE = new LinkedList<>();
@@ -43,8 +39,7 @@ public class TheSnakeActivity extends AppCompatActivity {
     private int cellColorRes;
     private int fieldColorRes;
     private int snakeColorRes;
-    private int foodColorRes;
-    private String foodSymbol = new String(Character.toChars(0x1f34e));
+    private final String foodSymbol = new String(Character.toChars(0x1f34e));
     private boolean isPlaying;
     private MoveDirection moveDirection;
 
@@ -93,7 +88,6 @@ public class TheSnakeActivity extends AppCompatActivity {
         cellColorRes  = getResources().getColor( R.color.the_snake_cell, getTheme() ) ;
         fieldColorRes = getResources().getColor( R.color.the_snake_background, getTheme() ) ;
         snakeColorRes = getResources().getColor( R.color.the_snake_snake, getTheme() ) ;
-        foodColorRes  = getResources().getColor( R.color.the_snake_food, getTheme() ) ;
 
         tvTime = findViewById( R.id.the_snake_tv_time );
         tvBestTime = findViewById( R.id.the_snake_tv_best_time );
@@ -114,13 +108,10 @@ public class TheSnakeActivity extends AppCompatActivity {
             Log.i("loadGameData", "Loaded " + bestScore + " " + bestTime ) ;
         }
         catch (IOException e) {
-            Log.e("loadGameData", e.getMessage() ) ;
+            Log.e("loadGameData", Objects.requireNonNull(e.getMessage())) ;
         }
     }
     private void saveGameData() {
-        /* Файлова система Андроїд "видає" кожному застосунку приватну директорію.
-         *  Доступ до неї для програми не обмежений, але можна її видаляти з налаштувань
-         *  пристрою. Доступ для інших програм - тільки з правами адміністратора */
         try( FileOutputStream fos = openFileOutput( gameDataFileName, Context.MODE_PRIVATE ) ) {
             DataOutputStream writer = new DataOutputStream( fos ) ;
             writer.writeFloat( bestScore );
@@ -130,35 +121,30 @@ public class TheSnakeActivity extends AppCompatActivity {
             Log.i("saveGameData", "Saved " + bestScore + " " + bestTime ) ;
         }
         catch (IOException e) {
-            Log.e("saveGameData", e.getMessage() ) ;
+            Log.e("saveGameData", Objects.requireNonNull(e.getMessage())) ;
         }
     }
     private void update() {
         Vector2 newHead = SNAKE.getFirst().copy();
 
-        // перераховуємо нову позицію голови в залежності від напряму руху
         switch (moveDirection){
             case top:    newHead.setY( newHead.getY() - 1 ) ; break;
             case bottom: newHead.setY( newHead.getY() + 1 ) ; break;
             case left:   newHead.setX( newHead.getX() - 1 ) ; break;
             case right:  newHead.setX( newHead.getX() + 1 ) ; break;
         }
-        // перевіряємо, що не вийшли за межі поля
         if( newHead.getX() < 0 || newHead.getX() >= fieldWidth
                 || newHead.getY() < 0 || newHead.getY() >= fieldHeight ) {
             gameOver();
             return;
         }
 
-        // вставляємо нову голову
         SNAKE.addFirst( newHead );
-        // та зарисовуємо комірку поля
         cells[newHead.getX()][newHead.getY()].setBackgroundColor( snakeColorRes );
 
-        // перевіряємо що нова позиція - це їжа
         if(newHead.getX() == FOOD.getX() && newHead.getY() == FOOD.getY()) {
             cells[FOOD.getX()][FOOD.getY()].setText("");
-            do {   // перегенеровуємо позицію їжі
+            do {
                 FOOD.setX( RANDOM.nextInt( fieldWidth ) );
                 FOOD.setY( RANDOM.nextInt( fieldHeight ) ) ;
             } while( isInSnake(FOOD) );
@@ -168,7 +154,6 @@ public class TheSnakeActivity extends AppCompatActivity {
         }
         else {
             Vector2 tail = SNAKE.removeLast();
-            // стираємо старий хвіст - зафарбовуємо у колір комірки
             cells[tail.getX()][tail.getY()].setBackgroundColor( cellColorRes );
             score += 1;
         }
@@ -196,14 +181,12 @@ public class TheSnakeActivity extends AppCompatActivity {
     }
     private void startGame() {
         loadGameData();
-        // стираємо залишкові асети
         if(FOOD != null) {
             cells[FOOD.getX()][FOOD.getY()].setText("");
         }
         for( Vector2 tail : SNAKE ) {
             cells[tail.getX()][tail.getY()].setBackgroundColor( cellColorRes ) ;
         }
-        // Відновлюємо стартову позицію
         FOOD = new Vector2(5,5);
         cells[FOOD.getX()][FOOD.getY()].setText(foodSymbol);
         SNAKE.clear();
@@ -252,14 +235,14 @@ public class TheSnakeActivity extends AppCompatActivity {
         return SNAKE.stream().anyMatch(v -> v.getX() == vector.getX() && v.getY() == vector.getY());
     }
     private void gameOver() {
-        new AlertDialog.Builder(   // формування модального діалогу за паттерном "Builder"
+        new AlertDialog.Builder(
                 TheSnakeActivity.this,
                 androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert   // Widget_AppCompat_ButtonBar_AlertDialog
         )
                 .setTitle(R.string.the_snake_title)
                 .setMessage(R.string.the_snake_message)
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setCancelable(false)   // неможна закрити без натиску кнопки
+                .setCancelable(false)
                 .setPositiveButton(R.string.the_snake_pb, (dialog, buttonIndex) -> startGame())
                 .setNegativeButton(R.string.the_snake_nb, (dialog, buttonIndex) -> finish())
                 .show();
