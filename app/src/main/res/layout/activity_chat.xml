@@ -39,6 +39,7 @@
             android:textColor="@color/ttt_secondary_color"/>
 
         <ImageView
+            android:id="@+id/chat_voice_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@android:drawable/ic_popup_reminder"
@@ -61,7 +62,6 @@
             android:minHeight="600dp"
             android:orientation="vertical"
             android:background="#ECECEC">
-
         </LinearLayout>
     </ScrollView>
 
@@ -71,6 +71,7 @@
         android:orientation="horizontal"
         android:background="#ECECEC"
         android:padding="10dp"
+        android:fitsSystemWindows="true"
         android:textColor="@color/ttt_secondary_color">
 
         <EditText
