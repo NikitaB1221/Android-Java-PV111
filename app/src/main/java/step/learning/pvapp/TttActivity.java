@@ -2,6 +2,7 @@ package step.learning.pvapp;
 
 import android.annotation.SuppressLint;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcel;
@@ -9,6 +10,8 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,10 +43,12 @@ public class TttActivity extends AppCompatActivity {
     private int xTime, oTime;
     private TextView tvXTime, tvOTime;
     private boolean isEnd = false;
+    private MediaPlayer xMoveVoice, oMoveVoice, cancelVoice, victoryVoice;
+    private Animation fieldClickAnim, cancelAnim, victoryAnim;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        clearAllFields();
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_ttt);
@@ -57,7 +62,6 @@ public class TttActivity extends AppCompatActivity {
         tvXTime = findViewById(R.id.xTime);
         tvOTime = findViewById(R.id.oTime);
         handler = new Handler();
-        handler.postDelayed(this::update, period);
         findViewById(R.id.ttt_main_layout).setOnTouchListener(new OnSwipeListener(getApplicationContext()) {
             @Override
             public void onSwipeBottom() {
@@ -88,11 +92,19 @@ public class TttActivity extends AppCompatActivity {
             @SuppressLint("DiscouragedApi") Button field = findViewById(getResources().getIdentifier(btnId, "id", getPackageName()));
             field.setOnClickListener(this::fieldClick);
         }
+        handler.postDelayed(this::update, period);
         clearAllFields();
         ((TextView) findViewById(R.id.ttt_X_label)).setText("X: ");
         ((TextView) findViewById(R.id.ttt_O_label)).setText("O: ");
         ((TextView) findViewById(R.id.ttt_O_score_label)).setText(String.valueOf(ScoreO));
         ((TextView) findViewById(R.id.ttt_X_score_label)).setText(String.valueOf(ScoreX));
+        fieldClickAnim = AnimationUtils.loadAnimation(this, R.anim.ttt_move_anim);
+        cancelAnim = AnimationUtils.loadAnimation(this, R.anim.ttt_cancel_anim);
+        victoryAnim = AnimationUtils.loadAnimation(this, R.anim.ttt_victory_anim);
+        xMoveVoice = MediaPlayer.create(this, R.raw.move_x_ttt);
+        oMoveVoice = MediaPlayer.create(this, R.raw.move_o_ttt);
+        cancelVoice = MediaPlayer.create(this, R.raw.cancel_ttt);
+        victoryVoice = MediaPlayer.create(this, R.raw.victory_ttt);
         if (savedInstanceState == null)
             Toast.makeText(this, IsXTurn ? "It's X turn" : "It's O turn", Toast.LENGTH_SHORT).show();
     }
@@ -124,6 +136,10 @@ public class TttActivity extends AppCompatActivity {
             oTime += (int) period / 1000;
             tvOTime.setText(getString(R.string.ttt_time_template, oTime));
         }
+        if (!isEnd) handler.postDelayed(this::update, period);
+    }
+
+    private void isEnd() {
         int winState = winCheck();
         if (winState == 1 || winState == 2) {
             isEnd = true;
@@ -134,10 +150,11 @@ public class TttActivity extends AppCompatActivity {
                 ScoreO += 1;
                 ((TextView) findViewById(R.id.ttt_O_score_label)).setText(String.valueOf(ScoreO));
             }
+            victoryVoice.start();
             new AlertDialog.Builder(
                     TttActivity.this,
                     androidx.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
-                    .setTitle(winState == 1 ? "X" : "O" + R.string.ttt_ad_title)
+                    .setTitle(getString(R.string.ttt_ad_title, winState == 1 ? "X" : "O"))
                     .setMessage(R.string.ttt_ad_message)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setCancelable(false)
@@ -145,7 +162,6 @@ public class TttActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.ttt_nb, (dialog, buttonIndex) -> finish())
                     .show();
         }
-        if (!isEnd) handler.postDelayed(this::update, period);
     }
 
     private void cancelLastMove() {
@@ -153,12 +169,13 @@ public class TttActivity extends AppCompatActivity {
             turnListInfo lastTurn = turnList.getFirst();
             Toast.makeText(this, "Last move canceled! Now it's " + turnList.getFirst().value + " turn", Toast.LENGTH_SHORT).show();
             Button field = findViewById(lastTurn.fieldId);
+            field.startAnimation(cancelAnim);
             IsXTurn = field.getText().equals("X");
             field.setText("");
             field.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ttt_secondary_color));
             turnList.removeFirst();
         } else Toast.makeText(this, "There's nothing to cancel here", Toast.LENGTH_SHORT).show();
-
+        cancelVoice.start();
     }
 
     private void fieldClick(View view) {
@@ -168,6 +185,7 @@ public class TttActivity extends AppCompatActivity {
             return;
         }
         if (IsXTurn) {
+            field.startAnimation(fieldClickAnim);
             field.setText("X");
             field.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36);
             field.setTypeface(field.getTypeface(), Typeface.BOLD);
@@ -175,7 +193,9 @@ public class TttActivity extends AppCompatActivity {
             IsXTurn = false;
             Toast.makeText(this, "It's O turn", Toast.LENGTH_SHORT).show();
             turnList.addFirst(new turnListInfo(field.getId(), "X"));
+            xMoveVoice.start();
         } else {
+            field.startAnimation(fieldClickAnim);
             field.setText("O");
             field.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36);
             field.setTypeface(field.getTypeface(), Typeface.BOLD);
@@ -183,7 +203,9 @@ public class TttActivity extends AppCompatActivity {
             IsXTurn = true;
             Toast.makeText(this, "It's X turn", Toast.LENGTH_SHORT).show();
             turnList.addFirst(new turnListInfo(field.getId(), "O"));
+            oMoveVoice.start();
         }
+        isEnd();
     }
 
     ArrayList<turnListInfo> lLAL;
@@ -242,16 +264,25 @@ public class TttActivity extends AppCompatActivity {
             field.setText("");
             field.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36);
             field.setTypeface(field.getTypeface(), Typeface.BOLD);
+            field.clearAnimation();
             field.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ttt_secondary_color));
             turnList = new LinkedList<>();
         }
+        if (isEnd) {
+            isEnd = false;
+            handler.postDelayed(this::update, period);
+        }
     }
 
-    private int winCheck() {
-        /*Lines*/
-        if (((Button) findViewById(R.id.ttt_field1)).getText().equals("X")
-                && ((Button) findViewById(R.id.ttt_field2)).getText().equals("X")
-                && ((Button) findViewById(R.id.ttt_field3)).getText().equals("X")) {
+/*    private int winCheck() {
+        Button b1,b2,b3;
+
+        if ((b1 =(Button) findViewById(R.id.ttt_field1)).getText().equals("X")
+                && (b2 = (Button) findViewById(R.id.ttt_field2)).getText().equals("X")
+                && (b3 = (Button) findViewById(R.id.ttt_field3)).getText().equals("X")) {
+            b1.startAnimation(victoryAnim);
+            b2.startAnimation(victoryAnim);
+            b3.startAnimation(victoryAnim);
             return 1;
         } else if (((Button) findViewById(R.id.ttt_field1)).getText().equals("O")
                 && ((Button) findViewById(R.id.ttt_field2)).getText().equals("O")
@@ -276,7 +307,7 @@ public class TttActivity extends AppCompatActivity {
                 && ((Button) findViewById(R.id.ttt_field9)).getText().equals("O")) {
             return 2;
         }
-        /*Columns*/
+
         if (((Button) findViewById(R.id.ttt_field1)).getText().equals("X")
                 && ((Button) findViewById(R.id.ttt_field4)).getText().equals("X")
                 && ((Button) findViewById(R.id.ttt_field7)).getText().equals("X")) {
@@ -304,7 +335,6 @@ public class TttActivity extends AppCompatActivity {
                 && ((Button) findViewById(R.id.ttt_field9)).getText().equals("O")) {
             return 2;
         }
-        /*Diagonals*/
         if (((Button) findViewById(R.id.ttt_field1)).getText().equals("X")
                 && ((Button) findViewById(R.id.ttt_field5)).getText().equals("X")
                 && ((Button) findViewById(R.id.ttt_field9)).getText().equals("X")) {
@@ -323,7 +353,68 @@ public class TttActivity extends AppCompatActivity {
                 && ((Button) findViewById(R.id.ttt_field7)).getText().equals("O")) {
             return 2;
         }
+        if (!((Button) findViewById(R.id.ttt_field1)).getText().equals("")
+                && !((Button) findViewById(R.id.ttt_field2)).getText().equals("")
+                && !((Button) findViewById(R.id.ttt_field3)).getText().equals("")
+                && !((Button) findViewById(R.id.ttt_field4)).getText().equals("")
+                && !((Button) findViewById(R.id.ttt_field5)).getText().equals("")
+                && !((Button) findViewById(R.id.ttt_field6)).getText().equals("")
+                && !((Button) findViewById(R.id.ttt_field7)).getText().equals("")
+                && !((Button) findViewById(R.id.ttt_field8)).getText().equals("")
+                && !((Button) findViewById(R.id.ttt_field9)).getText().equals("")) {
+
+            clearAllFields();
+        }
+
         return 0;
+    }*/
+
+    private int winCheck() {
+        Button[][] buttons = new Button[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String buttonID = "ttt_field" + (i * 3 + j + 1);
+                buttons[i][j] = findViewById(getResources().getIdentifier(buttonID, "id", getPackageName()));
+            }
+        }
+
+        // Проверяем строки и столбцы
+        for (int i = 0; i < 3; i++) {
+            if (checkThree(buttons[i][0], buttons[i][1], buttons[i][2])) {
+                return buttons[i][0].getText().equals("X") ? 1 : 2;
+            }
+            if (checkThree(buttons[0][i], buttons[1][i], buttons[2][i])) {
+                return buttons[0][i].getText().equals("X") ? 1 : 2;
+            }
+        }
+
+        // Проверяем диагонали
+        if (checkThree(buttons[0][0], buttons[1][1], buttons[2][2])) {
+            return buttons[0][0].getText().equals("X") ? 1 : 2;
+        }
+        if (checkThree(buttons[0][2], buttons[1][1], buttons[2][0])) {
+            return buttons[0][2].getText().equals("X") ? 1 : 2;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(buttons[i][j].getText().equals("")){
+                    return 0;
+                }
+            }
+        }
+        clearAllFields();
+        return 0;
+    }
+
+    private boolean checkThree(Button b1, Button b2, Button b3) {
+        if (!b1.getText().equals("") && b1.getText().equals(b2.getText()) && b2.getText().equals(b3.getText())){
+            b1.startAnimation(victoryAnim);
+            b2.startAnimation(victoryAnim);
+            b3.startAnimation(victoryAnim);
+            return true;
+        }
+        return false;
     }
 
     private static class turnListInfo implements Parcelable {
